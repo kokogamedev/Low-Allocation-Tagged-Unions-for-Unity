@@ -117,6 +117,17 @@ This guarantees:
 **Size:** ~16–20 bytes  
 **Best for:** Animation blend parameters, positions, rotations, directions. The main workhorse for your scriptable animator.
 
+### `AnyAnimatorParamValue`
+
+**Size:** ~16–20 bytes
+**Best for:** Optimized for systems like Mecanim blackboards. Specialized tagged union for working with Unity Animator parameters (`float`, `Vector2`, `bool`).
+
+### `AnyRange`
+
+**Size:** ~16–20 bytes
+**Best for:**  Designed for systems requiring movement ranges, zoom ranges, or animation constraints. A tagged union for value ranges (`Vector2`, `Vector2Int`) to handle constraints and limits efficiently.
+
+
 ### `AnyPrimitiveLiteral`
 
 **Size:** ~16–20 bytes  
@@ -126,6 +137,13 @@ This guarantees:
 
 **Size:** ~24–28 bytes  
 **Best for:** General-purpose blackboards that need the full set of value types plus occasional string names (state names, tags, etc.).
+
+### `AnyAnimatorParamLiteral`
+
+**Size:** ~24–28 bytes
+**Best for:** Use this for animators requiring both parameter names and tagged data. Supports string-based animator parameters alongside stored values.
+
+
 
 ---
 
@@ -622,4 +640,14 @@ This design keeps your animation hot paths lightweight while still allowing othe
   
 ---  
 
-**Extending the API** See the "Adding New Types" section earlier in this README for the exact steps to add new types to any of the unions.
+## **Extending the API**
+
+Want to support custom types (e.g., lets say... `Vector3` for use with Animators)?
+
+Extend the library takes a few steps, but generally it's easy in the current architecture.
+
+You actually have two options, technically (the second of which is better, but we will get to that later):
+1. Modify an existing tagged union
+2. Extend an existing tagged union by creating another one that has it as a member.
+
+For a full guide on the extension process, see the _Extending Tagged Unions.md_ documentation contained in this package (under the Documentation folder). Happy Extending!! 

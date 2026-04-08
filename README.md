@@ -57,7 +57,7 @@ Vector2 direction = blendParam; // Implicit conversion
 ---
 
 ### **3. AnyAnimatorParamValue**
-- Specialized tagged union for Unity Animator parameters (`int`, `float`, `bool`). (~16–20 bytes).
+- Specialized tagged union for Unity Animator parameters (`float`, `bool`, `Vector2`). (~16–20 bytes).
 - Optimized for systems like Mecanim blackboards.
 
 #### Example:
@@ -166,29 +166,15 @@ Use **TaggedUnion** if:
 
 ## **Extending the API**
 
-Want to support custom types (e.g., `Color` for Shader Graphs)?  
-Extend the library easily!
+Want to support custom types (e.g., let's say... `Vector3` for use with Animators)?  
 
-1. Add the type to the enum (`ValueType`, `AnimatorValueType`, etc.).
-2. Define it in the tagged union structs.
-3. Create implicit operators and factory methods (`From()`).
+Extending the library takes a few steps, but generally it's easy in the current architecture.
 
-Example adding `Color`:
-```csharp
-public enum AnimatorValueType
-{
-    None = 0, Int, Float, Color
-}
+You actually have two options, technically (the second of which is better, but we will get to that later):
+1. Modify an existing tagged union
+2. Extend an existing tagged union by creating another one that has it as a member.
 
-[StructLayout(LayoutKind.Explicit)]
-struct AnimatorValueUnion
-{
-    [FieldOffset(0)] public float floatValue;
-    [FieldOffset(0)] public bool boolValue;
-    [FieldOffset(0)] public Vector2 vector2Value;
-    [FieldOffset(0)] public Color colorValue;
-}
-```
+For a full guide on the extension process, see the _Extending Tagged Unions.md_ documentation contained in this package (under the Documentation folder). Happy Extending!! 
 
 ### **Optimized for Unity, with ❤️**
 

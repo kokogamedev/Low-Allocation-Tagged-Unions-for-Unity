@@ -12,7 +12,7 @@ namespace PsigenVision.TaggedUnion
     {
         public enum ValueType : byte
         {
-            None,
+            None = 0,
             Int,
             Float,
             Bool

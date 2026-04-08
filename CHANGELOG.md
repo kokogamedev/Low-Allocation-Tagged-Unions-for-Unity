@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `AnyRange`: A tagged union for value ranges (`Vector2`, `Vector2Int`) to handle constraints and limits efficiently.
     - `AnyPrimitiveLiteral`: Extends `AnyPrimitive` with rare string support for lightweight key-value pairs.
     - `AnyLiteral`: A comprehensive tagged union supporting both strings and Unity types.
-    - `AnyAnimatorParamValue`: Specialized tagged union for working with Unity Animator parameters (`float`, `int`, `bool`).
+    - `AnyAnimatorParamValue`: Specialized tagged union for working with Unity Animator parameters (`float`, `Vector2`, `bool`).
     - `AnyAnimatorParamLiteral`: Supports string-based animator parameters alongside stored values.
 
 - **Inspector Support**:
