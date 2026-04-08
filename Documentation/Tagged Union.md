@@ -219,19 +219,6 @@ The package includes a `[CustomPropertyDrawer]` that:
 
 ---
 
-## Adding New Types (Extensibility Guide)
-
-To add a new type (e.g. `Color`):
-
-1. Add it to the appropriate enum (`ValueType`).
-2. Add the field to the private union struct with `[FieldOffset(0)]` (or create a new one that follows the appropriate rules)
-3. Add the implicit operator.
-4. Add the matching case in `Convert<T>()`.
-5. Add the static `From(…)` factory.
-6. Update the `AnyUnionDrawer` if you want a custom label.
-
----
-
 ## Installation & Usage
 
 1. Add the package via Git URL or local folder.
@@ -283,7 +270,8 @@ All types live in the `PsigenVision.TaggedUnion` namespace.
 public struct AnyPrimitive  
 {  
     public enum ValueType : byte    {        None = 0,        Int,        Float,        Bool    }  
-    [FieldOffset(0)] public ValueType type;  
+    [FieldOffset(0)] private ValueType type;
+    public ValueType Type => type;
     // Private union (not directly accessible)    
     [FieldOffset(4)] private PrimitiveUnion value;  
     // Implicit conversions (zero-boxing)    
@@ -295,6 +283,7 @@ public struct AnyPrimitive
     public static AnyPrimitive From(float v);    
     public static AnyPrimitive From(bool v);  
     // Optional helper    
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     public void Clear(); // sets type = None}  
 }
 ```
@@ -324,7 +313,8 @@ bool crouch = isCrouching;
 public struct AnyValue  
 {  
     public enum ValueType : byte    {        None = 0,        Int,        Float,        Bool,        Vector2,        Vector3,        Quaternion    }  
-    [FieldOffset(0)] public ValueType type;  
+    [FieldOffset(0)] private ValueType type;
+    public ValueType Type => type;  
     // Private union (not directly accessible)    
     [FieldOffset(4)] private ValueUnion value;  
     // Implicit conversions (zero-boxing)    
@@ -341,6 +331,8 @@ public struct AnyValue
     public static AnyValue From(Vector2 v);    
     public static AnyValue From(Vector3 v);    
     public static AnyValue From(Quaternion v);  
+    
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     public void Clear();
     }  
 ```  
@@ -368,7 +360,8 @@ Quaternion rot = aimRotation;
 public struct AnyAnimatorParamValue
 {
     public enum ValueType : byte { None = 0, Float, Bool, Vector2 }
-    [FieldOffset(0)] public ValueType type;
+    [FieldOffset(0)] private ValueType type;
+    public ValueType Type => type;
     // Private union
     [FieldOffset(4)] private AnimatorParameterUnion value;
     // Implicit conversions
@@ -379,6 +372,8 @@ public struct AnyAnimatorParamValue
     public static AnyAnimatorParamValue From(float v);
     public static AnyAnimatorParamValue From(bool v);
     public static AnyAnimatorParamValue From(Vector2 v);
+    
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     public void Clear();
 }
 ```
@@ -415,6 +410,8 @@ public struct AnyRange
     // Factory methods
     public static AnyRange From(Vector2Int intRange);
     public static AnyRange From(Vector2 floatRange);
+    
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     public void Clear();
 }
 ```
@@ -444,7 +441,8 @@ The smallest tagged union that supports strings — only the three most common p
 public struct AnyPrimitive  
 {  
     public enum ValueType : byte    {        None = 0,        Int,        Float,        Bool    }  
-    [FieldOffset(0)] public ValueType type;  
+    [FieldOffset(0)] private ValueType type;
+    public ValueType Type => type;  
     // Private union (not directly accessible)    
     [FieldOffset(4)] private PrimitiveUnion value;  
     // Implicit conversions (zero-boxing)    
@@ -455,6 +453,8 @@ public struct AnyPrimitive
     public static AnyPrimitive From(int v);    
     public static AnyPrimitive From(float v);    
     public static AnyPrimitive From(bool v);  
+    
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     // Optional helper    
     public void Clear(); // sets type = None}  
 }
@@ -477,7 +477,6 @@ AnyPrimitiveLiteral isCrouching = isCrouchingPrimitive.AsPrimitiveLiteral();
 int hp = health;           
 bool crouch = isCrouching; 
 ```
-
  
 ---
 
@@ -506,7 +505,8 @@ public struct AnyLiteral
         Quaternion
     }
 
-    [FieldOffset(0)] public ValueType type;
+    [FieldOffset(0)] private ValueType type;
+    public ValueType Type => type;
 
     [FieldOffset(4)] private ValueUnion value;           // value types overlap here
     [FieldOffset(20)] public string stringValue;         // reference kept separate
@@ -540,6 +540,7 @@ public struct AnyLiteral
     public static AnyLiteral From(Vector3 v);
     public static AnyLiteral From(Quaternion v);
 
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     public void Clear();
 }
 ```
@@ -567,7 +568,8 @@ Vector2 direction = blend;
 public struct AnyAnimatorParamLiteral
 {
     public enum ValueType : byte { None = 0, Float, Bool, Vector2, String }
-    [FieldOffset(0)] public ValueType type;
+    [FieldOffset(0)] private ValueType type;
+    public ValueType Type => type;
     // Private union
     [FieldOffset(4)] private AnimatorParameterUnion value;
     [FieldOffset(8)] private string stringValue;
@@ -581,6 +583,8 @@ public struct AnyAnimatorParamLiteral
     public static AnyAnimatorParamLiteral From(bool v);
     public static AnyAnimatorParamLiteral From(Vector2 v);
     public static AnyAnimatorParamLiteral From(string v);
+    
+    public void SetType(ValueType valueType, bool bypassTypeCheck = false, bool forceClear = false)
     public void Clear();
 }
 ```
@@ -593,10 +597,27 @@ string parameter = paramName;    // implicit conversion
 AnyAnimatorParamLiteral blendParam = AnyAnimatorParamLiteral.From(new Vector2(0.5f, 1.0f));
 Vector2 blendValues = blendParam;    // implicit conversion
 ```
+### 10. Setting a New `type` for All Tagged Unions
+
+Each tagged union possess a private SerializedField `type` and public getter `Type` defined by their own `ValueType` enum. The purpose of this design is to prevent the user from setting a new `  type` directly without performing proper internal cleanup of the tagged union. 
+
+To set a new type for a tagged union, go through the `SetType` method, which automatically clears all data stored at the memory location shared by the union before assigning a new `ValueType`. 
+
+*Note*: _The custom property drawer automatically handles setting the serialized field `type` via the `SetType` method._
+
+**Usage Example**:
+```csharp
+AnyValue myNumericalValue = AnyValue.From(7);
+UseIntValue(myNumericalValue);
+
+myNumericalValue.SetType(AnyValue.ValueType.Float);
+//The value type is now ValueType.Float, and its value is 0f
+myNumericalValue = 6f; //Now accepts float value assignment
+```
 
 ---
 
-### 8. `AnyUnionDrawer` (Editor only)
+### 9. `AnyUnionDrawer` (Editor only)
 
 
 **Purpose** Custom PropertyDrawer that makes all four types look clean and native in the Inspector.
@@ -608,7 +629,7 @@ Vector2 blendValues = blendParam;    // implicit conversion
 No public API — it is automatically used by Unity’s Inspector.
   
 ---  
-### 9. Unsafe Union Structures
+### 10. Unsafe Union Structures
 
 
 **Purpose** Encapsulate all values to be stored in a union in the same struct, with explicit layout and packing. Due to the manner in which they are defined, their memory footprint is minimized to the size of their largest members.
@@ -619,7 +640,7 @@ No public API — it is automatically used by Unity’s Inspector.
 3. `AnimatorParameterUnion`- encapsulates common mecanim animator parameter types in Unity
 4. `DefaultRangeUnion` - encapsulates Vector2 ranges for both float and int
 
-**Warning**: These structures are defined plainly and without protection. They are `internal` and are not meant to be used or accessed directly. All "Any-Types" are essentially wrappers around these structures, and provide a safer interface into these unions. 
+**Warning**: These structures are defined plainly and without protection. They are `internal` and are not meant to be used or accessed directly. All "Any-Types" are essentially wrappers around these structures, and provide a safer interfaces into these unions. 
 
 
 ### Related: Generic `Blackboard<T>` (Separate Package)

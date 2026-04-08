@@ -21,13 +21,14 @@ You actually have two options, technically (the second of which is better, but w
 As a preface, going with option 1 on a tagged union native to this API can lead to unexpected side effects that proceed simply from the fact that you are modifying another API! It is always better to extend than to modify. HOWEVER, you can absolutely follow the steps for modifying an existing tagged union if the tagged union you are modifying is your own extension. Due to the nature of this architecture, if you follow the steps appropriately, the modification process follows precisely the same rules every time!
 
 ## Steps for Modifying an Existing Union
-1. Add the type to the enum (`ValueType`).
-2. Define it in the tagged union structs.
+1. Define it in the tagged union structs.
+2. Add the type to the enum (`ValueType`).
 3. Create implicit operators and factory methods (`From()`).
 4. If you want to take advantage of the property drawer, modify the AnyType dictionary in the AnyUnionDrawer as indicated by the examples.
 
 ### Example adding `Vector3`:
-
+#### _In AnimatorValueUnion_
+##### 1. Add the new type as a member, `Vector 3 vector3Value`, within the associated internal union struct, `AnimatorValueUnion`.
 ```csharp
 [StructLayout(LayoutKind.Explicit)]
 struct AnimatorValueUnion
@@ -41,7 +42,7 @@ struct AnimatorValueUnion
 
 #### _In AnyAnimatorParamValue:_
 
- 1. Change `ValueType` enum
+##### 2. Change `ValueType` enum
 ```csharp
 public enum ValueType
 {
@@ -49,7 +50,7 @@ public enum ValueType
 }
 ```
 
-##### 2. Add factory methods and implicit operators to `AnyAnimatorParamValue`
+##### 3. Add factory methods and implicit operators to `AnyAnimatorParamValue`
 ```csharp
 //Implicit operator
 public static implicit operator bool(AnyAnimatorParamValue p) => p.Convert<Vector3>();
@@ -74,7 +75,7 @@ public static implicit operator bool(AnyAnimatorParamValue p) => p.Convert<Vecto
 
 #### _In AnyUnionDrawer_:
 
-##### 3. Add case to property drawer's `AnyTypeData` dictionary
+##### 4. Add case to property drawer's `AnyTypeData` dictionary
 ```csharp
 private readonly Dictionary<Type, Dictionary<int, (bool isNested, string path)>> AnyTypeData = new() 
 {
@@ -103,7 +104,7 @@ Admittedly, this process is more intimidating. You would have to code that new s
    `[StructLayout(LayoutKind.Explicit, Pack = 1)]`).
 2. Implement the required structure for a tagged union in this architecture:
    1. ValueType enum (inherit this from `byte` for maximum memory-saving, which is the goal of unions, but be aware that CPU performance may drop slightly as modern processors are optimized for 32-bit operations) that has the same members in the same order as the tagged union's enum that you are extending. Add your own new types to the end.
-   2. Public field member of ValueType called `type` at `FieldOffset[0]`
+   2. _Private Serialized_ field member of ValueType called `type` at `FieldOffset[0]` alongside a public getter property named `Type`.
    3. _Private Serialized_ field member of the tagged union we are extending (usually I call it `value` for consistency) at `[FieldOffset(1)]` if your `ValueType` inherited from `byte` (and `FieldOffset[4]` otherwise).
    4. _Private Serialized_ field members for your new types each at the same field offset, which is actually the precise byte location of the instance of the tagged union you are extending. 
       * **_CAUTION_**: This only applies to value types. 
@@ -153,7 +154,7 @@ namespace PsigenVision.TaggedUnion
 ```
 
 
-**_2.2. Field member of ValueType called `type` at `FieldOffset[0]`_**
+**_2.2. Private Serialized field member of ValueType called `type` at `FieldOffset[0]` alongside a public getter property named `Type`._**
 ```csharp
 namespace PsigenVision.TaggedUnion
 {
@@ -167,7 +168,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
     }
 }
 ```
@@ -187,7 +189,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to 
         [FieldOffset(1), SerializeField] private AnyAnimatorParamValue value; //extend this tag union!
     }
 }
@@ -211,7 +214,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
         [FieldOffset(1), SerializeField] private AnyAnimatorParamValue value; //extend this tag union!
         [FieldOffset(1), SerializeField] private vector3 vector3Value; //our added type!!
     }
@@ -241,7 +245,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
         [FieldOffset(1), SerializeField] private AnyAnimatorParamValue value; //extend this tag union!
         [FieldOffset(1), SerializeField] private vector3 vector3Value; //our added type!!
         
@@ -281,7 +286,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
         [FieldOffset(1), SerializeField] private AnyAnimatorParamValue value; //extend this tag union!
         [FieldOffset(1), SerializeField] private vector3 vector3Value; //our added type!!
         
@@ -344,7 +350,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
         [FieldOffset(1), SerializeField] private AnyAnimatorParamValue value; //extend this tag union!
         [FieldOffset(1), SerializeField] private vector3 vector3Value; //our added type!!
         
@@ -408,7 +415,8 @@ namespace PsigenVision.TaggedUnion
             Vector3
         }
         
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
         [FieldOffset(1), SerializeField] private AnyAnimatorParamValue value; //extend this tag union!
         [FieldOffset(1), SerializeField] private vector3 vector3Value; //our added type!!
         

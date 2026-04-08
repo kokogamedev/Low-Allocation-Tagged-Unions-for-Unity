@@ -14,14 +14,14 @@ namespace PsigenVision.TaggedUnion
         public static AnyValue AsValue(this int val) => AnyValue.From(val);
         public static AnyValue AsValue(this bool val) => AnyValue.From(val);
         public static AnyValue AsValue(this float val) => AnyValue.From(val);
-        public static AnyValue AsValue(this Vector2 value) => AnyValue.From(value); 
-        public static AnyValue AsValue(this Vector3 value) => AnyValue.From(value);
-        public static AnyValue AsValue(this Quaternion value) => AnyValue.From(value);        
+        public static AnyValue AsValue(this Vector2 val) => AnyValue.From(val); 
+        public static AnyValue AsValue(this Vector3 val) => AnyValue.From(val);
+        public static AnyValue AsValue(this Quaternion val) => AnyValue.From(val);        
 
         //Converting value-types to AnyAnimatorParamValue types (wrapper for C# union)
         public static AnyAnimatorParamValue AsAnimValue(this bool val) => AnyAnimatorParamValue.From(val);
         public static AnyAnimatorParamValue AsAnimValue(this float val) => AnyAnimatorParamValue.From(val);
-        public static AnyAnimatorParamValue AsAnimValue(this Vector2 value) => AnyAnimatorParamValue.From(value); 
+        public static AnyAnimatorParamValue AsAnimValue(this Vector2 val) => AnyAnimatorParamValue.From(val); 
         
         //Converting value-types to AnyRange types (wrapper for C# union)
         public static AnyRange AsRange(this Vector2 val) => AnyRange.From(val);
@@ -45,13 +45,13 @@ namespace PsigenVision.TaggedUnion
         //Converting value-types and string types to AnyAnimatorParamLiteral types (wrapper for C# union)
         public static AnyAnimatorParamLiteral AsAnimLiteral(this bool val) => AnyAnimatorParamLiteral.From(val);
         public static AnyAnimatorParamLiteral AsAnimLiteral(this float val) => AnyAnimatorParamLiteral.From(val);
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this Vector2 value) => AnyAnimatorParamLiteral.From(value); 
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this string value) => AnyAnimatorParamLiteral.From(value); 
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this Vector2 val) => AnyAnimatorParamLiteral.From(val); 
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this string val) => AnyAnimatorParamLiteral.From(val); 
         
         
         //Converting between Any-types
         // AnyPrimitive → others
-        public static AnyValue AsValue(this AnyPrimitive p) => p.type switch
+        public static AnyValue AsValue(this AnyPrimitive p) => p.Type switch
         {
             AnyPrimitive.ValueType.Int   => AnyValue.From((int)p),
             AnyPrimitive.ValueType.Float => AnyValue.From((float)p),
@@ -59,7 +59,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
 
-        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyPrimitive p) => p.type switch
+        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyPrimitive p) => p.Type switch
         {
             AnyPrimitive.ValueType.Int   => AnyPrimitiveLiteral.From((int)p),
             AnyPrimitive.ValueType.Float => AnyPrimitiveLiteral.From((float)p),
@@ -67,7 +67,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyLiteral AsLiteral(this AnyPrimitive p) => p.type switch
+        public static AnyLiteral AsLiteral(this AnyPrimitive p) => p.Type switch
         {
             AnyPrimitive.ValueType.Int   => AnyLiteral.From((int)p),
             AnyPrimitive.ValueType.Float => AnyLiteral.From((float)p),
@@ -75,14 +75,14 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamValue AsAnimValue(this AnyPrimitive p) => p.type switch
+        public static AnyAnimatorParamValue AsAnimValue(this AnyPrimitive p) => p.Type switch
         { 
             AnyPrimitive.ValueType.Float => AnyAnimatorParamValue.From((float)p),
             AnyPrimitive.ValueType.Bool  => AnyAnimatorParamValue.From((bool)p),
             _ => default
         };
         
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyPrimitive p) => p.type switch
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyPrimitive p) => p.Type switch
         { 
             AnyPrimitive.ValueType.Float => AnyAnimatorParamLiteral.From((float)p),
             AnyPrimitive.ValueType.Bool  => AnyAnimatorParamLiteral.From((bool)p),
@@ -91,7 +91,7 @@ namespace PsigenVision.TaggedUnion
         
 
         // AnyValue → others
-        public static AnyPrimitive AsPrimitive(this AnyValue v) => v.type switch
+        public static AnyPrimitive AsPrimitive(this AnyValue v) => v.Type switch
         {
             AnyValue.ValueType.Int   => AnyPrimitive.From((int)v),
             AnyValue.ValueType.Float => AnyPrimitive.From((float)v),
@@ -99,7 +99,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyValue v) => v.type switch
+        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyValue v) => v.Type switch
         {
             AnyValue.ValueType.Int   => AnyPrimitiveLiteral.From((int)v),
             AnyValue.ValueType.Float => AnyPrimitiveLiteral.From((float)v),
@@ -107,7 +107,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
 
-        public static AnyAnimatorParamValue AsAnimValue(this AnyValue v) => v.type switch
+        public static AnyAnimatorParamValue AsAnimValue(this AnyValue v) => v.Type switch
         { 
             AnyValue.ValueType.Float      => AnyAnimatorParamValue.From((float)v),
             AnyValue.ValueType.Bool       => AnyAnimatorParamValue.From((bool)v),
@@ -115,13 +115,13 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyRange AsRange(this AnyValue v) => v.type switch
+        public static AnyRange AsRange(this AnyValue v) => v.Type switch
         { 
             AnyValue.ValueType.Vector2    => AnyRange.From((Vector2)v),
             _ => default
         };
 
-        public static AnyLiteral AsLiteral(this AnyValue v) => v.type switch
+        public static AnyLiteral AsLiteral(this AnyValue v) => v.Type switch
         {
             AnyValue.ValueType.Int        => AnyLiteral.From((int)v),
             AnyValue.ValueType.Float      => AnyLiteral.From((float)v),
@@ -132,7 +132,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyValue v) => v.type switch
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyValue v) => v.Type switch
         { 
             AnyValue.ValueType.Float      => AnyAnimatorParamLiteral.From((float)v),
             AnyValue.ValueType.Bool       => AnyAnimatorParamLiteral.From((bool)v),
@@ -141,7 +141,7 @@ namespace PsigenVision.TaggedUnion
         };
 
         // AnyLiteral → others
-        public static AnyPrimitive AsPrimitive(this AnyLiteral l) => l.type switch
+        public static AnyPrimitive AsPrimitive(this AnyLiteral l) => l.Type switch
         {
             AnyLiteral.ValueType.Int   => AnyPrimitive.From((int)l),
             AnyLiteral.ValueType.Float => AnyPrimitive.From((float)l),
@@ -149,7 +149,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyValue AsValue(this AnyLiteral l) => l.type switch
+        public static AnyValue AsValue(this AnyLiteral l) => l.Type switch
         {
             AnyLiteral.ValueType.Int        => AnyValue.From((int)l),
             AnyLiteral.ValueType.Float      => AnyValue.From((float)l),
@@ -160,7 +160,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamValue AsAnimValue(this AnyLiteral l) => l.type switch
+        public static AnyAnimatorParamValue AsAnimValue(this AnyLiteral l) => l.Type switch
         { 
             AnyLiteral.ValueType.Float      => AnyAnimatorParamValue.From((float)l),
             AnyLiteral.ValueType.Bool       => AnyAnimatorParamValue.From((bool)l),
@@ -168,13 +168,13 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyRange AsRange(this AnyLiteral l) => l.type switch
+        public static AnyRange AsRange(this AnyLiteral l) => l.Type switch
         { 
             AnyLiteral.ValueType.Vector2    => AnyRange.From((Vector2)l),
             _ => default
         };
         
-        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyLiteral l) => l.type switch
+        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyLiteral l) => l.Type switch
         {
             AnyLiteral.ValueType.Int   => AnyPrimitiveLiteral.From((int)l),
             AnyLiteral.ValueType.Float => AnyPrimitiveLiteral.From((float)l),
@@ -183,7 +183,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyLiteral l) => l.type switch
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyLiteral l) => l.Type switch
         { 
             AnyLiteral.ValueType.Float      => AnyAnimatorParamLiteral.From((float)l),
             AnyLiteral.ValueType.Bool       => AnyAnimatorParamLiteral.From((bool)l),
@@ -194,7 +194,7 @@ namespace PsigenVision.TaggedUnion
 
         
         // AnyPrimitiveLiteral → others
-        public static AnyPrimitive AsPrimitive(this AnyPrimitiveLiteral l) => l.type switch
+        public static AnyPrimitive AsPrimitive(this AnyPrimitiveLiteral l) => l.Type switch
         {
             AnyPrimitiveLiteral.ValueType.Int   => AnyPrimitive.From((int)l),
             AnyPrimitiveLiteral.ValueType.Float => AnyPrimitive.From((float)l),
@@ -202,7 +202,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyValue AsValue(this AnyPrimitiveLiteral l) => l.type switch
+        public static AnyValue AsValue(this AnyPrimitiveLiteral l) => l.Type switch
         {
             AnyPrimitiveLiteral.ValueType.Int   => AnyValue.From((int)l),
             AnyPrimitiveLiteral.ValueType.Float => AnyValue.From((float)l),
@@ -210,7 +210,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyLiteral AsLiteral(this AnyPrimitiveLiteral l) => l.type switch
+        public static AnyLiteral AsLiteral(this AnyPrimitiveLiteral l) => l.Type switch
         {
             AnyPrimitiveLiteral.ValueType.Int   => AnyLiteral.From((int)l),
             AnyPrimitiveLiteral.ValueType.Float => AnyLiteral.From((float)l),
@@ -219,14 +219,14 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamValue AsAnimValue(this AnyPrimitiveLiteral l) => l.type switch
+        public static AnyAnimatorParamValue AsAnimValue(this AnyPrimitiveLiteral l) => l.Type switch
         { 
             AnyPrimitiveLiteral.ValueType.Float => AnyAnimatorParamValue.From((float)l),
             AnyPrimitiveLiteral.ValueType.Bool  => AnyAnimatorParamValue.From((bool)l),
             _ => default
         };
         
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyPrimitiveLiteral l) => l.type switch
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyPrimitiveLiteral l) => l.Type switch
         { 
             AnyPrimitiveLiteral.ValueType.Float => AnyAnimatorParamLiteral.From((float)l),
             AnyPrimitiveLiteral.ValueType.Bool  => AnyAnimatorParamLiteral.From((bool)l),
@@ -235,21 +235,21 @@ namespace PsigenVision.TaggedUnion
         };
         
         // AnyAnimatorParamValue → others
-        public static AnyPrimitive AsPrimitive(this AnyAnimatorParamValue v) => v.type switch
+        public static AnyPrimitive AsPrimitive(this AnyAnimatorParamValue v) => v.Type switch
         {
             AnyAnimatorParamValue.ValueType.Float      => AnyPrimitive.From((float)v),
             AnyAnimatorParamValue.ValueType.Bool       => AnyPrimitive.From((bool)v),
             _ => default
         };
         
-        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyAnimatorParamValue v) => v.type switch
+        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyAnimatorParamValue v) => v.Type switch
         {
             AnyAnimatorParamValue.ValueType.Float      => AnyPrimitiveLiteral.From((float)v),
             AnyAnimatorParamValue.ValueType.Bool       => AnyPrimitiveLiteral.From((bool)v),
             _ => default
         };
 
-        public static AnyValue AsValue(this AnyAnimatorParamValue v) => v.type switch
+        public static AnyValue AsValue(this AnyAnimatorParamValue v) => v.Type switch
         { 
             AnyAnimatorParamValue.ValueType.Float      => AnyValue.From((float)v),
             AnyAnimatorParamValue.ValueType.Bool       => AnyValue.From((bool)v),
@@ -257,13 +257,13 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyRange AsRange(this AnyAnimatorParamValue v) => v.type switch
+        public static AnyRange AsRange(this AnyAnimatorParamValue v) => v.Type switch
         { 
             AnyAnimatorParamValue.ValueType.Vector2    => AnyRange.From((Vector2)v),
             _ => default
         };
 
-        public static AnyLiteral AsLiteral(this AnyAnimatorParamValue v) => v.type switch
+        public static AnyLiteral AsLiteral(this AnyAnimatorParamValue v) => v.Type switch
         {
             AnyAnimatorParamValue.ValueType.Float      => AnyLiteral.From((float)v),
             AnyAnimatorParamValue.ValueType.Bool       => AnyLiteral.From((bool)v),
@@ -271,7 +271,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyAnimatorParamValue v) => v.type switch
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyAnimatorParamValue v) => v.Type switch
         { 
             AnyAnimatorParamValue.ValueType.Float      => AnyAnimatorParamLiteral.From((float)v),
             AnyAnimatorParamValue.ValueType.Bool       => AnyAnimatorParamLiteral.From((bool)v),
@@ -280,39 +280,39 @@ namespace PsigenVision.TaggedUnion
         };
         
         // AnyRange → others
-        public static AnyValue AsValue(this AnyRange v) => v.type switch
+        public static AnyValue AsValue(this AnyRange v) => v.Type switch
         { 
             AnyRange.ValueType.Float    => AnyValue.From((Vector2)v),
             _ => default
         };
         
-        public static AnyLiteral AsLiteral(this AnyRange v) => v.type switch
+        public static AnyLiteral AsLiteral(this AnyRange v) => v.Type switch
         {
             AnyRange.ValueType.Float    => AnyLiteral.From((Vector2)v),
             _ => default
         };
         
-        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyRange v) => v.type switch
+        public static AnyAnimatorParamLiteral AsAnimLiteral(this AnyRange v) => v.Type switch
         { 
             AnyRange.ValueType.Float    => AnyAnimatorParamLiteral.From((Vector2)v),
             _ => default
         };
         
-        public static AnyAnimatorParamValue AsAnimValue(this AnyRange v) => v.type switch
+        public static AnyAnimatorParamValue AsAnimValue(this AnyRange v) => v.Type switch
         { 
             AnyRange.ValueType.Float    => AnyAnimatorParamValue.From((Vector2)v),
             _ => default
         };        
         
         // AnyAnimatorParamLiteral → others
-        public static AnyPrimitive AsPrimitive(this AnyAnimatorParamLiteral v) => v.type switch
+        public static AnyPrimitive AsPrimitive(this AnyAnimatorParamLiteral v) => v.Type switch
         {
             AnyAnimatorParamLiteral.ValueType.Float      => AnyPrimitive.From((float)v),
             AnyAnimatorParamLiteral.ValueType.Bool       => AnyPrimitive.From((bool)v),
             _ => default
         };
         
-        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyAnimatorParamLiteral v) => v.type switch
+        public static AnyPrimitiveLiteral AsPrimitiveLiteral(this AnyAnimatorParamLiteral v) => v.Type switch
         {
             AnyAnimatorParamLiteral.ValueType.Float      => AnyPrimitiveLiteral.From((float)v),
             AnyAnimatorParamLiteral.ValueType.Bool       => AnyPrimitiveLiteral.From((bool)v),
@@ -320,7 +320,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
 
-        public static AnyValue AsValue(this AnyAnimatorParamLiteral v) => v.type switch
+        public static AnyValue AsValue(this AnyAnimatorParamLiteral v) => v.Type switch
         { 
             AnyAnimatorParamLiteral.ValueType.Float      => AnyValue.From((float)v),
             AnyAnimatorParamLiteral.ValueType.Bool       => AnyValue.From((bool)v),
@@ -328,13 +328,13 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyRange AsRange(this AnyAnimatorParamLiteral v) => v.type switch
+        public static AnyRange AsRange(this AnyAnimatorParamLiteral v) => v.Type switch
         { 
             AnyAnimatorParamLiteral.ValueType.Vector2    => AnyRange.From((Vector2)v),
             _ => default
         };
 
-        public static AnyLiteral AsLiteral(this AnyAnimatorParamLiteral v) => v.type switch
+        public static AnyLiteral AsLiteral(this AnyAnimatorParamLiteral v) => v.Type switch
         {
             AnyAnimatorParamLiteral.ValueType.Float      => AnyLiteral.From((float)v),
             AnyAnimatorParamLiteral.ValueType.Bool       => AnyLiteral.From((bool)v),
@@ -343,7 +343,7 @@ namespace PsigenVision.TaggedUnion
             _ => default
         };
         
-        public static AnyAnimatorParamValue AsAnimValue(this AnyAnimatorParamLiteral v) => v.type switch
+        public static AnyAnimatorParamValue AsAnimValue(this AnyAnimatorParamLiteral v) => v.Type switch
         { 
             AnyAnimatorParamLiteral.ValueType.Float      => AnyAnimatorParamValue.From((float)v),
             AnyAnimatorParamLiteral.ValueType.Bool       => AnyAnimatorParamValue.From((bool)v),

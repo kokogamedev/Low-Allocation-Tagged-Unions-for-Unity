@@ -1,7 +1,7 @@
 # **TaggedUnion** — Low-Allocation Tagged Unions for Unity
 
 **Package:** `com.psigenvision.taggedunion`  
-**Version:** 1.0.0  
+**Version:** 1.0.1  
 **Namespace:** `PsigenVision.TaggedUnion`
 
 This package provides memory-efficient, zero-boxing, type-safe **tagged unions** (also called variants or discriminated unions) for Unity. It was inspired by Youtuber git-amend's **C# Blackboard for Unity** tutorial. Check out the original work at [Unity-Behaviour-Trees on GitHub](https://github.com/adammyhre/Unity-Behaviour-Trees/tree/master).

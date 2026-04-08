@@ -18,7 +18,8 @@ namespace PsigenVision.TaggedUnion
             Bool
         } //Inheriting a C# enum from byte changes its underlying type from the default int (32-bit) to byte (8-bit). This modification affects storage, range, and interoperability
 
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
 
         // Private union (not directly accessible) 
         [FieldOffset(1), SerializeField] private PrimitiveUnion value;
@@ -84,7 +85,8 @@ namespace PsigenVision.TaggedUnion
         // 2. Put the Value Types AFTER the reference type.
         // On 64-bit systems, a string pointer is 8 bytes. 
         // So we start the next field at offset 8.
-        [FieldOffset(8), SerializeField] public ValueType type;
+        [FieldOffset(8), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
         
         // Private union (not directly accessible) 
 	    [FieldOffset(9), SerializeField] private AnyPrimitive value; // value types overlap here
@@ -145,7 +147,8 @@ namespace PsigenVision.TaggedUnion
             Color
         } //Inheriting a C# enum from byte changes its underlying type from the default int (32-bit) to byte (8-bit). This modification affects storage, range, and interoperability
 
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
 
         // Private union (not directly accessible) 
 	    [FieldOffset(1), SerializeField] private ValueUnion value; // no string here → smaller!
@@ -239,7 +242,8 @@ namespace PsigenVision.TaggedUnion
         // 2. Put the Value Types AFTER the reference type.
         // On 64-bit systems, a string pointer is 8 bytes. 
         // So we start the next field at offset 8.
-        [FieldOffset(8)] public ValueType type;
+        [FieldOffset(8), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
 
         // Private union (not directly accessible) 
         [FieldOffset(9), SerializeField] private AnyValue value; // value types overlap here
@@ -301,7 +305,8 @@ namespace PsigenVision.TaggedUnion
             Vector2
         } //Inheriting a C# enum from byte changes its underlying type from the default int (32-bit) to byte (8-bit). This modification affects storage, range, and interoperability
 
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
 
         // Private union (not directly accessible) 
 	    [FieldOffset(1), SerializeField] private AnimatorParameterUnion value; // no string here → smaller!
@@ -368,7 +373,8 @@ namespace PsigenVision.TaggedUnion
         // 2. Put the Value Types AFTER the reference type.
         // On 64-bit systems, a string pointer is 8 bytes. 
         // So we start the next field at offset 8.
-        [FieldOffset(8)] public ValueType type;
+        [FieldOffset(8), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
 
         // Private union (not directly accessible) 
 	    [FieldOffset(9), SerializeField] private AnyAnimatorParamValue value; // no string here → smaller!
@@ -421,7 +427,8 @@ namespace PsigenVision.TaggedUnion
             Int
         } //Inheriting a C# enum from byte changes its underlying type from the default int (32-bit) to byte (8-bit). This modification affects storage, range, and interoperability
 
-        [FieldOffset(0)] public ValueType type;
+        [FieldOffset(0), SerializeField] private ValueType type;
+        public ValueType Type => type; //This forces the user to go through the SetType method to change/set the ValueType in code
 
         // Private union (not directly accessible) 
 	    [FieldOffset(1), SerializeField] private DefaultRangeUnion value; // no string here → smaller!
