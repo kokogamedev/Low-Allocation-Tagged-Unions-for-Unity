@@ -185,10 +185,11 @@ namespace PsigenVision.TaggedUnion.Editor
                 {
                     // --------Sync Object with Serialized State--------
                     // Re-assign the entire struct back to the property so Unity knows it changed
-                    currentBoxedValue = GetUpdatedBoxedValue(typeProp.enumValueIndex, property, valueProp, property, property.GetSystemType());
+                    if (!TryUpdateBoxedValue(typeProp.enumValueIndex, property, valueProp, property, property.GetSystemType()))
+                        Debug.LogError("Failed not modify tagged union value");
                 }
                 
-                property.boxedValue = currentBoxedValue;
+                //property.boxedValue = currentBoxedValue;
                 // <-- This forces Unity to save the struct
                 property.serializedObject.ApplyModifiedProperties();
             }
@@ -289,7 +290,7 @@ namespace PsigenVision.TaggedUnion.Editor
         /// <param name="outerType">The outermost type of the serialized object utilized in the hierarchy traversal.</param>
         /// <param name="fieldPath">The hierarchical field path within the serialized object that identifies the target property. Optional; defaults to an empty string.</param>
         /// <returns>The boxed value retrieved from the serialized property at the specified path.</returns>
-        private object GetUpdatedBoxedValue(int enumIndex, SerializedProperty startingProperty, SerializedProperty valueProp,
+        private bool TryUpdateBoxedValue(int enumIndex, SerializedProperty startingProperty, SerializedProperty valueProp,
             SerializedProperty boxCarrier, Type outerType, string fieldPath = "")
         {
             var currentType = startingProperty.GetSystemType();
@@ -298,12 +299,17 @@ namespace PsigenVision.TaggedUnion.Editor
             
             if (currentData.isNested)
             {
-                return GetUpdatedBoxedValue(enumIndex, startingProperty.FindPropertyRelative(currentData.path), valueProp,
+                return TryUpdateBoxedValue(enumIndex, startingProperty.FindPropertyRelative(currentData.path), valueProp,
                     boxCarrier, outerType, fieldPath);
             }
             
             //Debug.Log($"Final Field Path is {fieldPath}");
-            return boxCarrier.GetBoxedValueViaPath(outerType, fieldPath, valueProp);
+            if (boxCarrier.TrySetBoxedValueViaPath(outerType, fieldPath, valueProp, out var modifiedObject))
+            {
+                boxCarrier.boxedValue = modifiedObject;
+                return true;
+            }
+            return false;
         }
 
         /// <summary>

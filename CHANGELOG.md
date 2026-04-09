@@ -48,3 +48,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Introduced public getter `ValueType Type` that allows getting the tagged union's type without risking setting it directly (forcing use of the safer `SetType` method).
 
 ---
+
+## [1.0.2] - 2026-04-09
+
+### Fixed issue with enum-modification and handling boxed value setting failure
+
+### Changed
+- Fixed an issue introduced with the last update involving the `type` enum no longer being accessible to the `AnyUnionDrawer` property drawer (fix involved updating dependency package "Editor Scripting Utils").
+- Fixed an issue with error being thrown when setting a float value in the inspector at the instance "X." was reaching (trailing decimal) by introducing failure-handling around updating the `boxedValue`. Modifications were also made to the "Editor Scripting Utils" dependency package to facilitate this fix.
+
+---
