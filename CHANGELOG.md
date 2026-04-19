@@ -58,3 +58,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed an issue with error being thrown when setting a float value in the inspector at the instance "X." was reaching (trailing decimal) by introducing failure-handling around updating the `boxedValue`. Modifications were also made to the "Editor Scripting Utils" dependency package to facilitate this fix.
 
 ---
+
+## [1.0.3] - 2026-04-19
+
+### Migrated dependency from Editor Scripting Utils package to Native Unity C# Utilities package
+
+---

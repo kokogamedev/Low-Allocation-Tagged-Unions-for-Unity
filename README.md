@@ -6,7 +6,7 @@
 
 This package provides memory-efficient, zero-boxing, type-safe **tagged unions** (also called variants or discriminated unions) for Unity. It was inspired by Youtuber git-amend's **C# Blackboard for Unity** tutorial. Check out the original work at [Unity-Behaviour-Trees on GitHub](https://github.com/adammyhre/Unity-Behaviour-Trees/tree/master).
 
-**NOTE**: This package has a depenency on the ["com.psigenvision.editorscriptingutils"](https://github.com/kokogamedev/Unity-Editor-Scripting-Utils) package.
+**NOTE**: This package has a depenency on the ["com.psigenvision.utilities.native"](https://github.com/kokogamedev/Unity-Native-Scripting-Utilities) package.
 
 ---
 
