@@ -141,7 +141,7 @@ Vector2 zoom = movementRange.Get<Vector2>("ZoomLevel");
 
 ## **Installation**
 
-1. Install ["com.psigenvision.editorscriptingutils"](https://github.com/kokogamedev/Unity-Editor-Scripting-Utils) dependency via Git URL or local Unity folder.
+1. Install ["com.psigenvision.utilities.native"](https://github.com/kokogamedev/Unity-Native-Scripting-Utilities.git) dependency via Git URL or local Unity folder.
 2. Add this package via Git URL or local Unity folder.
 2. Include the namespace:
     ```csharp

@@ -64,3 +64,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Migrated dependency from Editor Scripting Utils package to Native Unity C# Utilities package
 
 ---
+## [1.0.4] - 2026-07-07
+
+### Implemented auto-publish workflow to npm packages in scoped registry via github action.
+
+---
+
+## [1.0.5] - 2026-07-07
+
+### Minor Fix to the README as dependency package changed from Editor Scripting Utils to Native Unity C# Utilities.
+
+---
