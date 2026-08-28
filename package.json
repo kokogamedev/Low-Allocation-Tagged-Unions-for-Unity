@@ -1,7 +1,7 @@
 {
   "name": "com.psigenvision.taggedunion",
   "displayName": "Tagged Union",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Provides memory-efficient, zero-boxing, type-safe \"variant\" types (tagged unions) that can hold one of several possible C# types without the performance cost of `object` boxing or the memory waste of storing every possible field simultaneously.",
   "dependencies": {
     "com.psigenvision.utilities.core": "^0.1.1"
