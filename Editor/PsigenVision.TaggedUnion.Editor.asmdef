@@ -3,8 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Dkoko002unity.Taggedunion",
-        "PsigenVision.Utilities.Native.Runtime",
-        "PsigenVision.Utilities.Native.Editor",
+        "PsigenVision.Utilities.Core.Runtime",
+        "PsigenVision.Utilities.Core.Editor",
         "UnityEditor.UI",
         "UnityEngine.UI",
         "UnityEngine.TestRunner",

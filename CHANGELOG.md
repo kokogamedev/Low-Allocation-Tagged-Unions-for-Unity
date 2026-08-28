@@ -75,3 +75,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Minor Fix to the README as dependency package changed from Editor Scripting Utils to Native Unity C# Utilities.
 
 ---
+
+## [1.0.7] - 2026-08-28
+
+### **Dependency Change After Extraction of Core Utilities package from Native Utilities package**
+- Dependency of this package on `com.psigenvision.utilities.native` has been changed to a more compact `com.psigenvision.utilities.core`.**
+
+----
